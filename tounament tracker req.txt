@@ -1,0 +1,50 @@
+Requirements:
+1. Track games played and their outcome
+2. Multiple competitors play in the tournament
+3. Creates a tournament plan
+4. Schedules games.
+5. A single loss eliminates player.
+6. The last player standing is the winner.
+
+Q.
+1.how many players? fix?
+-Handle variable no. of players in a tournament.
+
+2.if less no. of players, how to handle?
+-tournament with less than a perfect number(multiple of 2) should add in 'byes'i.e certain team at random get to skip 1st round and act as they won.
+
+3. ordering is random or by input?
+-random 
+
+4.should we schedule game?
+-games can be playend in whatever order and whenever the player wants.
+
+5. how sysytem know , if games are scheduled?
+-do need to take care.
+
+6. doest system need to store score?
+- simple score
+
+7. frontend- form,webapp,app,etc?
+-desktop system for now.
+
+8.where data will be store?
+-ms sql but also text file.
+
+9. will system handle fees, prize or payouts?
+-yes. optopn of charging fee, how much money to be awarded. The total cash amount shoul not exceed the income from tournament. % based system would be nice to specify.
+
+10. what type of reporting is needed? result, scorecard?
+-simple report outcomes of the ames per round.and end report
+
+11. who can fill results of game?
+-anyone using application.
+
+12. are there varying level off access?
+-no, email reports to the competitor
+
+13. should this system contact users about upcoming games?
+-yes. system should email users that they are due to play in a round.
+
+14. is each player on their own or team use this tt?
+-all members should trated equally. 

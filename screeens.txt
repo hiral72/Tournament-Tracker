@@ -1,0 +1,7 @@
+Screens:
+Tournament viewer
+Tournament dashborad
+Create team
+Create tournament:
+Create prize
+
