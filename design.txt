@@ -1,0 +1,14 @@
+Design:
+
+Structure:Window form application
+Data: SQL and text file
+Users: One at a time on one apllication.
+
+Key Concepts:
+-Email
+-SQL
+-Custom events
+-Error handling
+-Interfaces
+-Random ordering
+-Texting-messages
