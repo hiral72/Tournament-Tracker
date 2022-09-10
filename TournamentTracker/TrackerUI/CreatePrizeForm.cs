@@ -43,10 +43,8 @@ namespace TrackerUI
                     placeNameText.Text,
                     prizeAmtText.Text,
                     prizePercentageText.Text);
-                foreach (IDataConnection db in GlobalConfig.Connections)
-                {
-                    db.CreatePrize(model);
-                }
+                GlobalConfig.Connections.CreatePrize(model);
+                
                 placeNumberText.Text = "";
                  placeNameText.Text="";
                  prizeAmtText.Text="0";
@@ -75,6 +73,7 @@ namespace TrackerUI
 
             if (placeNameText.Text.Length == 0)
             {
+                Console.WriteLine(placeNameText.Text);
                 output = false;
             }
 
@@ -100,6 +99,11 @@ namespace TrackerUI
         }
 
         private void prizeAmtText_TextChanged(object sender, EventArgs e)
+        { }
+
+        
+            
+        private void placeNumberText_TextChanged(object sender, EventArgs e)
         {
 
         }

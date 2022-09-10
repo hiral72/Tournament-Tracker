@@ -60,6 +60,7 @@
             this.placeNumberText.Name = "placeNumberText";
             this.placeNumberText.Size = new System.Drawing.Size(251, 33);
             this.placeNumberText.TabIndex = 15;
+            this.placeNumberText.TextChanged += new System.EventHandler(this.placeNumberText_TextChanged);
             // 
             // placeNumberLabel
             // 

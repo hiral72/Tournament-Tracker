@@ -18,7 +18,7 @@ namespace TrackerUI
             Application.SetCompatibleTextRenderingDefault(false);
          
             //Intialize the database connections
-            TrackerLibrary.GlobalConfig.IntializeConnections(true, true);
+            TrackerLibrary.GlobalConfig.IntializeConnections(TrackerLibrary.DatabaseType.Sql);
             Application.Run(new CreatePrizeForm());
         }
     }
