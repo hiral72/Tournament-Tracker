@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace TrackerLibrary.Models
 {
-    class TeamModel
+    public class TeamModel
     {
+        public int TeamId { get; set; }
         public List<PersonModel> TeamMembers { get; set; }
         public string TeamName { get; set; }
         public TeamModel ()

@@ -14,21 +14,39 @@ namespace TrackerUI
 {
     public partial class CreateTeamForm : Form
     {
+
+        private List<PersonModel> availTeamMembers = GlobalConfig.Connections.GetPerson_All();
+        private List<PersonModel> selectedTeamMembers= new List<PersonModel>();
+
         public CreateTeamForm()
         {
             InitializeComponent();
+           // CreateSampleData();
+            WireUpLists();
         }
 
-        private void CreateTeamForm_Load(object sender, EventArgs e)
+        private void CreateSampleData()
         {
-
+            availTeamMembers.Add(new PersonModel { FirstName = "Tim", LastName = "C" });
+            availTeamMembers.Add(new PersonModel { FirstName = "Tedim", LastName = "C" });
+            selectedTeamMembers.Add(new PersonModel { FirstName = "Hiral", LastName = "Sheth" });
+            selectedTeamMembers.Add(new PersonModel { FirstName = "Hetvi", LastName = "Sheth" });
         }
 
-        private void lastNameLabel_Click(object sender, EventArgs e)
+       
+
+        private void WireUpLists()
         {
+            teamDropdown.DataSource = null;
+            teamDropdown.DataSource = availTeamMembers;
+            teamDropdown.DisplayMember = "FullName";
 
+            teamPlayersListBox.DataSource = null;
+            teamPlayersListBox.DataSource = selectedTeamMembers;
+            teamPlayersListBox.DisplayMember = "FullName";
         }
 
+ 
         private void createMemberButton_Click(object sender, EventArgs e)
         {
             if (ValidateForm())
@@ -40,13 +58,14 @@ namespace TrackerUI
                 p.PhoneNumber = phoneText.Text;
 
                 GlobalConfig.Connections.CreatePerson(p);
+                selectedTeamMembers.Add(p);
+                WireUpLists();
+
                 firstNameText.Text ="";
                 lastNameText.Text="";
                 emailText.Text = "";
                 phoneText.Text = "";
 
-
-              
             }
             else {
                 MessageBox.Show("You need to fill all of the fields");
@@ -62,12 +81,39 @@ namespace TrackerUI
             {
                 output = false;
             }
-
-
-            
-
-
             return output;
+        }
+
+        private void addMemberButton_Click(object sender, EventArgs e)
+        {
+            PersonModel p = (PersonModel)teamDropdown.SelectedItem;
+            availTeamMembers.Remove(p);            
+            selectedTeamMembers.Add(p);
+            // TODO- good method to update list
+            WireUpLists();
+        }
+
+        private void removeSelectedMemberButton_Click(object sender, EventArgs e)
+        {
+            PersonModel p = (PersonModel)teamPlayersListBox.SelectedItem;
+            if (p!=null)
+            {
+                selectedTeamMembers.Remove(p);
+                availTeamMembers.Add(p);
+                // TODO- good method to update list
+                WireUpLists(); 
+            }
+        }
+
+        private void createTeamButton_Click(object sender, EventArgs e)
+        {
+            TeamModel t = new TeamModel();
+            t.TeamName = teamNameText.Text;
+            t.TeamMembers = selectedTeamMembers;
+
+            GlobalConfig.Connections.CreateTeam(t);
+            // TODO- validate form
+            // TODO - if we are not closing this form after creation, close the form
         }
     }
 }

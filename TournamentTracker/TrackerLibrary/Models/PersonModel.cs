@@ -17,5 +17,19 @@ namespace TrackerLibrary.Models
         {
                 
         }
+
+
+
+        public String FullName
+        {
+            get 
+            {
+                //string r = String.Format("{0} {1}", FirstName, LastName);
+                return (FirstName+" "+LastName); 
+            }
+
+        }
+        
+       
     }
 }
