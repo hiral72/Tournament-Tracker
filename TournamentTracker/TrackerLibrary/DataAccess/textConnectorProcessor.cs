@@ -49,6 +49,31 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             return output;
         }
 
+        public static List<TeamModel> ConvertToTeamModels(this List<string> lines, string peopleFileName)
+        {
+            List<TeamModel> output = new List<TeamModel>();
+            List<PersonModel> people = peopleFileName.FullFilePath().LoadFile().ConvertToPersonModels();
+
+            foreach (string line in lines)
+            {
+                //1,Hiral warriors,1|3|2
+                string[] cols = line.Split(',');
+                TeamModel t = new TeamModel();
+                t.TeamId=int.Parse(cols[0]);     
+                t.TeamName = cols[1];
+                string[] personIds = cols[2].Split('|');
+
+                foreach (string id in personIds)
+                { 
+                    t.TeamMembers.Add(
+                        people.Where(x=>x.PersonId == int.Parse(id)).First()
+                    );
+                }
+                output.Add(t);
+            }
+            return output;
+        }
+
         public static List<PersonModel> ConvertToPersonModels(this List<string> lines)
         {
             List<PersonModel> output = new List<PersonModel>();
@@ -90,5 +115,30 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             }
             File.WriteAllLines(fileName.FullFilePath(), lines);
         }
+
+        private static string ConvertPeopleListToString(List<PersonModel> people)
+        {
+            string output="";
+            if (people.Count == 0)
+            { return ""; }
+            foreach (PersonModel p in people)
+            {
+                output=output+ p.PersonId.ToString()+"|";
+            }
+            output = output.Substring(0, output.Length - 1);
+            return output;
+        }
+
+        public static void SaveToTeamsFile(this List<TeamModel> models, string fileName)
+        {
+            List<string> lines = new List<string>();
+            foreach (TeamModel t in models)
+            {
+                string newStr = t.TeamId + "," + t.TeamName+","+ ConvertPeopleListToString(t.TeamMembers);
+                lines.Add(newStr);
+            }
+            File.WriteAllLines(fileName.FullFilePath(), lines);
+        }
+
     }
 }
