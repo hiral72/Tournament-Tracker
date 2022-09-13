@@ -14,10 +14,10 @@ Create Table Tournaments (
 
 Create Table Teams (
  TeamId int identity(1,1) PRIMARY KEY,
- TournamentName varchar(50) NOT NULL,
- EntryFee money NOT NULL,
+ TeamName varchar(50) NOT NULL,
  DateCreated datetime2 NOT NULL default (getDate())
 );
+
 
 Create Table TournamentEntries(
 TournamentEntryId int identity(1,1) PRIMARY KEY,
@@ -34,11 +34,12 @@ PhoneNo varchar(50) NOT NULL,
 DateCreated datetime2 NOT NULL default (getDate())
 );
 
+
+
 Create Table TeamMembers(
 TeamMemberId int identity(1,1) PRIMARY KEY,
 TeamId int FOREIGN KEY references Teams(TeamId) ,
 PersonId int FOREIGN KEY references People(PersonId)  ,
-DateCreated datetime2 NOT NULL default (getDate())
 );
 
 
@@ -58,12 +59,14 @@ PrizeId int FOREIGN KEY references Prizes(PrizeId)  ,
 DateCreated datetime2 NOT NULL default (getDate())
 );
 
+
 Create Table Matchups(
 MatchUpId int identity(1,1) PRIMARY KEY,
 WinnerId int FOREIGN KEY references Teams(TeamId) ,
 MatchUpRound int NOT NULL,
 DateCreated datetime2 NOT NULL default (getDate())
 );
+
 
 Create Table MatchupEntries(
 MatchUpEntryId int identity(1,1) PRIMARY KEY,
