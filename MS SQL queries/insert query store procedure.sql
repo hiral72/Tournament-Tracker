@@ -73,3 +73,44 @@ END
 GO
 
 select * from Teams;
+
+Use [Tournaments]
+GO
+CREATE PROCEDURE spTournaments_Insert
+@TournamentName varchar(50),
+@EntryFee money,
+@TournamentId int=0 output
+AS
+BEGIN
+	SET NOCOUNT ON;
+	Insert into dbo.Tournaments(TournamentName,EntryFee,Active)
+	values(@TournamentName,@EntryFee,1)
+	Select @TournamentId=SCOPE_IDENTITY();
+END
+GO
+
+Use [Tournaments]
+GO
+CREATE PROCEDURE spTournamentEntries_Insert
+@TournamentId int ,
+@TeamId int
+AS
+BEGIN
+	SET NOCOUNT ON;
+	Insert into dbo.TournamentEntries(TournamentId,TeamId)
+	values(@TournamentId,@TeamId)
+END
+GO
+
+Use [Tournaments]
+GO
+CREATE PROCEDURE spTournamentPrizes_Insert
+@TournamentId int ,
+@PrizeId int
+AS
+BEGIN
+	SET NOCOUNT ON;
+	Insert into dbo.TournamentPrizes(TournamentId,PrizeId)
+	values(@TournamentId,@PrizeId)
+END
+GO

@@ -33,7 +33,7 @@
             this.tournamentNameText = new System.Windows.Forms.TextBox();
             this.tournamentNameLabel = new System.Windows.Forms.Label();
             this.feeLabel = new System.Windows.Forms.Label();
-            this.feeText = new System.Windows.Forms.TextBox();
+            this.EntryfeeText = new System.Windows.Forms.TextBox();
             this.selectTeamLabel = new System.Windows.Forms.Label();
             this.teamDropdown = new System.Windows.Forms.ComboBox();
             this.addTeamButton = new System.Windows.Forms.Button();
@@ -92,14 +92,14 @@
             this.feeLabel.TabIndex = 12;
             this.feeLabel.Text = "Entry Fee";
             // 
-            // feeText
+            // EntryfeeText
             // 
-            this.feeText.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.feeText.Location = new System.Drawing.Point(176, 175);
-            this.feeText.Name = "feeText";
-            this.feeText.Size = new System.Drawing.Size(115, 33);
-            this.feeText.TabIndex = 13;
-            this.feeText.Text = "0";
+            this.EntryfeeText.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EntryfeeText.Location = new System.Drawing.Point(176, 175);
+            this.EntryfeeText.Name = "EntryfeeText";
+            this.EntryfeeText.Size = new System.Drawing.Size(115, 33);
+            this.EntryfeeText.TabIndex = 13;
+            this.EntryfeeText.Text = "0";
             // 
             // selectTeamLabel
             // 
@@ -153,6 +153,7 @@
             this.createTournamentButton.TabIndex = 18;
             this.createTournamentButton.Text = "Create Tournament";
             this.createTournamentButton.UseVisualStyleBackColor = true;
+            this.createTournamentButton.Click += new System.EventHandler(this.createTournamentButton_Click);
             // 
             // teamTwoName
             // 
@@ -314,7 +315,7 @@
             this.Controls.Add(this.addTeamButton);
             this.Controls.Add(this.teamDropdown);
             this.Controls.Add(this.selectTeamLabel);
-            this.Controls.Add(this.feeText);
+            this.Controls.Add(this.EntryfeeText);
             this.Controls.Add(this.feeLabel);
             this.Controls.Add(this.tournamentNameText);
             this.Controls.Add(this.tournamentNameLabel);
@@ -334,7 +335,7 @@
         private System.Windows.Forms.TextBox tournamentNameText;
         private System.Windows.Forms.Label tournamentNameLabel;
         private System.Windows.Forms.Label feeLabel;
-        private System.Windows.Forms.TextBox feeText;
+        private System.Windows.Forms.TextBox EntryfeeText;
         private System.Windows.Forms.Label selectTeamLabel;
         private System.Windows.Forms.ComboBox teamDropdown;
         private System.Windows.Forms.Button addTeamButton;

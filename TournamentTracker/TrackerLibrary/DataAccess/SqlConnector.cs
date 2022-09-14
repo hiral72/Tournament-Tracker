@@ -111,5 +111,50 @@ namespace TrackerLibrary.DataAccess
              }
              
          }
+
+        private void SaveTournament(IDbConnection connection,TournamentModel model)
+        {
+            var p = new DynamicParameters();
+            p.Add("@TournamentName", model.TournamentName);
+            p.Add("@EntryFee", model.EntryFee);
+            p.Add("@TournamentId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            connection.Execute("dbo.spTournaments_Insert", p, commandType: CommandType.StoredProcedure);
+            model.TournamentId = p.Get<int>("@TournamentId");
+        }
+
+        private void SaveEnteredTeams(IDbConnection connection, TournamentModel model)
+        {
+            foreach (TeamModel tm in model.EnteredTeams)
+            {
+                var p = new DynamicParameters();
+                p.Add("@TournamentId", model.TournamentId);
+                p.Add("@TeamId", tm.TeamId);
+                connection.Execute("dbo.spTournamentEntries_Insert", p, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        private void SaveTournamentPrizes(IDbConnection connection, TournamentModel model)
+        {
+            foreach (PrizeModel tm in model.Prizes)
+            {
+                var p = new DynamicParameters();
+                p.Add("@TournamentId", model.TournamentId);
+                p.Add("@PrizeId", tm.PrizeId);
+                connection.Execute("dbo.spTournamentPrizes_Insert", p, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+         public TournamentModel CreateTournament(TournamentModel model)
+         {
+              using(IDbConnection connection=new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+              {
+                  SaveTournament(connection,model);
+                  SaveEnteredTeams(connection, model);
+                  SaveTournamentPrizes(connection, model);  
+              }
+              return model;
+        }  
+
+        
     }
 }

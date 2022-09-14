@@ -14,6 +14,7 @@ namespace TrackerLibrary.DataAccess
         private const string PrizesFile = "PrizeModels.csv";
         private const string PeopleFile = "PeopleModels.csv";
         private const string TeamsFile = "TeamModels.csv";
+        private const string TournamentsFile = "TournamentModels.csv";
       
 
         // TODO - Wire up createPrize for text file
@@ -95,6 +96,23 @@ namespace TrackerLibrary.DataAccess
         {
             return PrizesFile.FullFilePath().LoadFile().ConvertToPrizeModels();
 
+        }
+
+
+        public TournamentModel CreateTournament(TournamentModel model)
+        {
+            List<TournamentModel> tournaments = TournamentsFile.FullFilePath().LoadFile().ConvertToTournamentModels(TeamsFile,PrizesFile,PeopleFile);
+            int currentId = 1;
+            if (tournaments.Count > 0)
+            {
+                currentId = tournaments.OrderByDescending(x => x.TournamentId).First().TournamentId+ 1;
+            }
+            model.TournamentId = currentId;
+            tournaments.Add(model);
+            tournaments.SaveToTournamentsFile(TournamentsFile);
+  
+            return model;
+            
         }
     }
 }
