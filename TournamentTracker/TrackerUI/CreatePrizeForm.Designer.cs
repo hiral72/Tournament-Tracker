@@ -60,7 +60,6 @@
             this.placeNumberText.Name = "placeNumberText";
             this.placeNumberText.Size = new System.Drawing.Size(251, 33);
             this.placeNumberText.TabIndex = 15;
-            this.placeNumberText.TextChanged += new System.EventHandler(this.placeNumberText_TextChanged);
             // 
             // placeNumberLabel
             // 
@@ -80,7 +79,7 @@
             this.placeNameText.Name = "placeNameText";
             this.placeNameText.Size = new System.Drawing.Size(251, 33);
             this.placeNameText.TabIndex = 17;
-            this.placeNameText.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+ 
             // 
             // placeNameLabel
             // 
@@ -92,7 +91,7 @@
             this.placeNameLabel.Size = new System.Drawing.Size(163, 37);
             this.placeNameLabel.TabIndex = 16;
             this.placeNameLabel.Text = "Place Name";
-            this.placeNameLabel.Click += new System.EventHandler(this.label1_Click);
+
             // 
             // prizeAmtText
             // 
@@ -102,7 +101,7 @@
             this.prizeAmtText.Size = new System.Drawing.Size(251, 33);
             this.prizeAmtText.TabIndex = 19;
             this.prizeAmtText.Text = "0";
-            this.prizeAmtText.TextChanged += new System.EventHandler(this.prizeAmtText_TextChanged);
+     
             // 
             // prizeAmtlabel
             // 
@@ -184,7 +183,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CreatePrizeForm";
             this.Text = "Create Prize";
-            this.Load += new System.EventHandler(this.CreatePrizeForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

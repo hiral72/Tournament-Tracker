@@ -1,9 +1,39 @@
+Use [Tournaments]
+GO
+CREATE PROCEDURE spTeam_GetAll
+AS
+BEGIN
+	SET NOCOUNT ON;
+	Select * from Teams 
+END
+GO
 
 Use [Tournaments]
 GO
-SET ANSI_NULLS ON
+CREATE PROCEDURE spPrize_GetAll
+AS
+BEGIN
+	SET NOCOUNT ON;
+	Select * from Prizes 
+END
 GO
-SET QUOTED_IDENTIFIER ON
+
+Use [Tournaments]
+GO
+CREATE PROCEDURE spTeamMembers_GetByTeam
+	@TeamId int
+AS
+BEGIN
+	SET NOCOUNT ON;
+	Select p.* from dbo.TeamMembers m
+	inner join dbo.People p
+	on m.PersonId=p.PersonId
+	where m.TeamId=@TeamId
+END
+GO
+
+
+Use [Tournaments]
 GO
 CREATE PROCEDURE spPrizes_GetByTournament
 	@TournamentId int
@@ -21,10 +51,6 @@ GO
 
 
 Use [Tournaments]
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE spMatchupEntries_GetByMatchup
 	@MatchupId int

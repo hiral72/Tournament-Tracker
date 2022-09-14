@@ -81,5 +81,35 @@ namespace TrackerLibrary.DataAccess
                  return model;
              }
          }
+
+
+         public List<TeamModel> GetTeam_All()
+         {
+             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+             {
+                 List<TeamModel> output;
+                 output = connection.Query<TeamModel>("dbo.spTeam_GetAll").ToList();
+                 foreach (TeamModel team in output)
+                 {
+                     var p = new DynamicParameters();
+                     p.Add("@TeamId", team.TeamId);
+                     team.TeamMembers = connection.Query<PersonModel>("dbo.spTeamMembers_GetByTeam", p,commandType:CommandType.StoredProcedure).ToList();
+
+                 }
+                 return output;
+             }
+         }
+
+
+         public List<PrizeModel> GetPrize_All()
+         {
+             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+             {
+                 List<PrizeModel> output;
+                 output = connection.Query<PrizeModel>("dbo.spPrize_GetAll").ToList();
+                 return output;
+             }
+             
+         }
     }
 }

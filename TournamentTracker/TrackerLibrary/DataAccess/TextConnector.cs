@@ -83,5 +83,18 @@ namespace TrackerLibrary.DataAccess
             teams.SaveToTeamsFile(TeamsFile);
             return model;
         }
+
+
+        public List<TeamModel> GetTeam_All()
+        {
+            return TeamsFile.FullFilePath().LoadFile().ConvertToTeamModels(PeopleFile);
+
+        }
+
+        public List<PrizeModel> GetPrize_All()
+        {
+            return PrizesFile.FullFilePath().LoadFile().ConvertToPrizeModels();
+
+        }
     }
 }

@@ -7,64 +7,116 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TrackerLibrary;
+using TrackerLibrary.Models;
+
 
 namespace TrackerUI
 {
-    public partial class CreateTournamentForm : Form
+    public partial class CreateTournamentForm : Form, IPrizeRequester,ITeamRequester
     {
+        private List<TeamModel> availTeams = GlobalConfig.Connections.GetTeam_All();
+        private List<TeamModel> selectedTeams = new List<TeamModel>();
+        private List<PrizeModel> availPrizes = GlobalConfig.Connections.GetPrize_All();
+        private List<PrizeModel> selectedPrizes = new List<PrizeModel>();
         public CreateTournamentForm()
         {
             InitializeComponent();
+            WireUpLists();
         }
 
-        private void CreateTournamentForm_Load(object sender, EventArgs e)
+        private void WireUpLists()
         {
+            teamDropdown.DataSource = null;
+            teamDropdown.DataSource = availTeams;
+            teamDropdown.DisplayMember = "TeamName";
 
-        }
+            teamsListBox.DataSource = null;
+            teamsListBox.DataSource = selectedTeams;
+            teamsListBox.DisplayMember = "TeamName";
 
-        private void teamOneScoreValue_TextChanged(object sender, EventArgs e)
-        {
+            prizeDropdown.DataSource = null;
+            prizeDropdown.DataSource = availPrizes;
+            prizeDropdown.DisplayMember = "PlaceName";
 
-        }
-
-        private void teamOneName_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void teamTwoName_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void feeText_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void deleteTeamButton_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tournamentNameLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void selectTeamLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void teamDropdown_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            prizesListBox.DataSource = null;
+            prizesListBox.DataSource = selectedPrizes;
+            prizesListBox.DisplayMember = "PlaceName";
         }
 
         private void addTeamButton_Click(object sender, EventArgs e)
         {
+            TeamModel t = (TeamModel)teamDropdown.SelectedItem;
+            availTeams.Remove(t);
+            selectedTeams.Add(t);
+            WireUpLists();
+        }
+
+        private void deleteTeamButton_Click(object sender, EventArgs e)
+        {
+            TeamModel t = (TeamModel)teamsListBox.SelectedItem;
+            if (t != null)
+            {
+                selectedTeams.Remove(t);
+                availTeams.Add(t);
+                // TODO- good method to update list
+                WireUpLists();
+            }
+        }
+        private void createPrizeLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            //call the create prize form
+            // this keyword represnts createtournamentform instanace
+            CreatePrizeForm frm = new CreatePrizeForm(this);
+            frm.Show(); 
 
         }
+
+        public void PrizeComplete(PrizeModel model)
+        {
+            //get back a prizemodel from the form
+            //take model prize and put it into a list of selected prize
+            selectedPrizes.Add(model);
+            WireUpLists();
+        }
+    
+        private void createTeamLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            CreateTeamForm frm = new CreateTeamForm(this);
+            frm.Show();
+        }
+
+        public void TeamComplete(TeamModel model)
+        {
+            selectedTeams.Add(model);
+            WireUpLists();
+        }
+
+        private void deletePrizeButton_Click(object sender, EventArgs e)
+        {
+            PrizeModel t = (PrizeModel)prizesListBox.SelectedItem;
+            if (t != null)
+            {
+                selectedPrizes.Remove(t);
+                availPrizes.Add(t);
+                // TODO- good method to update list
+                WireUpLists();
+            }
+
+        }
+
+        private void addPrizeButton_Click(object sender, EventArgs e)
+        {
+            PrizeModel p= (PrizeModel)prizeDropdown.SelectedItem;
+            if (p != null)
+            {
+                availPrizes.Remove(p);
+                selectedPrizes.Add(p);
+                WireUpLists();
+            }
+           
+        }
+
+        
     }
 }
