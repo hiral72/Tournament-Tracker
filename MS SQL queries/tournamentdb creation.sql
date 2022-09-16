@@ -69,15 +69,16 @@ Create Table Matchups(
 MatchUpId int identity(1,1) PRIMARY KEY,
 WinnerId int FOREIGN KEY references Teams(TeamId) ,
 MatchUpRound int NOT NULL,
-TournamentId int FOREIGN KEY references Tournaments(TournamentId) 
+TournamentId int FOREIGN KEY references Tournaments(TournamentId) NOT NULL
 );
 
 Drop Table MatchupEntries;
 Create Table MatchupEntries(
 MatchUpEntryId int identity(1,1) PRIMARY KEY,
+MatchUpId int FOREIGN KEY references MatchUps(MatchUpId) NOT NULL,
 ParentMatchUpId int FOREIGN KEY references MatchUps(MatchUpId),
 TeamCompetingId int FOREIGN KEY references Teams(TeamId),
-Score float NOT NULL
+Score float 
 );
 
 
