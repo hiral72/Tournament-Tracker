@@ -8,6 +8,7 @@ namespace TrackerLibrary.Models
 {
     class MatchupModel
     {
+        public int MatchupId{get; set;}
         public List<MatchupEntryModel> Entries { get; set; }
         public TeamModel Winner { get; set; }
         public int MatchupRound { get; set; }
