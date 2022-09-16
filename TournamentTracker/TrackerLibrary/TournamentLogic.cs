@@ -19,11 +19,72 @@ namespace TrackerLibrary
         {
             // order team list randomly
             List<TeamModel> randomizedTeams = RandomizeTeamOrder(model.EnteredTeams);
-
+            int teamCount = randomizedTeams.Count;
+            int rounds = findNumberOfRounds(teamCount);
+            int byes = findNumberOfByes(rounds,teamCount);
+            model.Rounds.Add(CreateFirstRound(byes, randomizedTeams,rounds));
+            CreateOtherRounds(model, rounds);
         }
+
+        private static List<MatchupModel> CreateFirstRound(int byes, List<TeamModel> teams, int rounds)
+        {
+            List<MatchupModel> output = new List<MatchupModel>();
+            MatchupModel curr = new MatchupModel();
+            foreach (TeamModel team in teams)
+            {
+                
+                curr.Entries.Add(new MatchupEntryModel { TeamCompeting = team });
+                if (byes > 0 || curr.Entries.Count > 1)
+                {
+                    //adding byes in starting matchups
+                    curr.MatchupRound = 1;
+                    output.Add(curr);
+                    curr = new MatchupModel();
+                    if (byes > 0)
+                    {
+                        byes -= 1;
+                    }
+                }
+            }
+            return output;
+        }
+
+        private static void CreateOtherRounds(TournamentModel model, int rounds)
+        { 
+           
+        }
+
+        private static int findNumberOfByes(int rounds,int teamCount)
+        {
+           int output=0;
+           int totalTeams = 0;
+            //Math.Pow(2,rounds)
+           for(int i=0; i<=rounds;i++)
+           {
+               totalTeams *= 2;
+           }
+           output = totalTeams - teamCount;
+           return output;
+        }
+
+        private static int findNumberOfRounds(int teamCount)
+        {
+            int output = 1;
+            int val = 2;
+            while (teamCount > val)
+            {
+                output += 1;
+                val *= 2;
+            }
+            return output;
+        }
+
+       
+
         private static List<TeamModel> RandomizeTeamOrder(List<TeamModel> teams)
         {
             return teams.OrderBy(a => Guid.NewGuid()).ToList();
         }
+
     }
 }
