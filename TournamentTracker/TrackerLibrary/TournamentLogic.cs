@@ -50,7 +50,29 @@ namespace TrackerLibrary
         }
 
         private static void CreateOtherRounds(TournamentModel model, int rounds)
-        { 
+        {
+            int round = 2;
+            List<MatchupModel> prevRound=model.Rounds[0];
+            List<MatchupModel> currRound = new List<MatchupModel>();
+            MatchupModel currMatchUp = new MatchupModel();
+            while (round <= rounds)
+            {
+                foreach (MatchupModel match in prevRound)
+                {
+                    currMatchUp.Entries.Add(new MatchupEntryModel { ParentMatchup = match });
+                    if (currMatchUp.Entries.Count > 1)
+                    {
+                        currMatchUp.MatchupRound = round;
+                        currRound.Add(currMatchUp);
+                        currMatchUp = new MatchupModel();
+                    }
+ 
+                }
+                model.Rounds.Add(currRound);
+                prevRound = currRound;
+                currRound = new List<MatchupModel>();
+                round += 1;
+            }
            
         }
 
