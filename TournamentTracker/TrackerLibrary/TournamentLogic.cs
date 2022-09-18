@@ -79,9 +79,9 @@ namespace TrackerLibrary
         private static int findNumberOfByes(int rounds,int teamCount)
         {
            int output=0;
-           int totalTeams = 0;
+           int totalTeams = 1;
             //Math.Pow(2,rounds)
-           for(int i=0; i<=rounds;i++)
+           for(int i=1; i<=rounds;i++)
            {
                totalTeams *= 2;
            }

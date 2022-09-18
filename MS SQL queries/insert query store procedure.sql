@@ -102,6 +102,7 @@ BEGIN
 END
 GO
 
+
 Use [Tournaments]
 GO
 CREATE PROCEDURE spTournamentPrizes_Insert
@@ -114,3 +115,36 @@ BEGIN
 	values(@TournamentId,@PrizeId)
 END
 GO
+
+Use [Tournaments]
+GO
+CREATE PROCEDURE dbo.spMatchups_Insert
+@TournamentId int ,
+@MatchupRound int ,
+@MatchupId int=0 output
+AS
+BEGIN
+	SET NOCOUNT ON;
+	Insert into dbo.Matchups(TournamentId,MatchupRound)
+	values(@TournamentId,@MatchupRound)
+	Select @MatchupId=SCOPE_IDENTITY();
+END
+GO
+
+Use [Tournaments]
+GO
+CREATE PROCEDURE dbo.spMatchupEntries_Insert
+@MatchupId int ,
+@ParentMatchupId int,
+@TeamCompetitingId int
+AS
+BEGIN
+	SET NOCOUNT ON;
+	Insert into dbo.MatchupEntries(MatchupId,ParentMatchupId,TeamCompetingId)
+	values (@MatchupId,@ParentMatchupId,@TeamCompetitingId)
+END
+GO
+
+select * from Matchups
+Select * from MatchupEntries
+

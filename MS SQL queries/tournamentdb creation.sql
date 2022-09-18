@@ -64,19 +64,19 @@ PrizeId int FOREIGN KEY references Prizes(PrizeId)  ,
 DateCreated datetime2 NOT NULL default (getDate())
 );
 
-Drop Table MatchUps;
+Drop Table Matchups;
 Create Table Matchups(
-MatchUpId int identity(1,1) PRIMARY KEY,
+MatchupId int identity(1,1) PRIMARY KEY,
 WinnerId int FOREIGN KEY references Teams(TeamId) ,
-MatchUpRound int NOT NULL,
+MatchupRound int NOT NULL,
 TournamentId int FOREIGN KEY references Tournaments(TournamentId) NOT NULL
 );
 
 Drop Table MatchupEntries;
 Create Table MatchupEntries(
-MatchUpEntryId int identity(1,1) PRIMARY KEY,
-MatchUpId int FOREIGN KEY references MatchUps(MatchUpId) NOT NULL,
-ParentMatchUpId int FOREIGN KEY references MatchUps(MatchUpId),
+MatchupEntryId int identity(1,1) PRIMARY KEY,
+MatchupId int FOREIGN KEY references Matchups(MatchupId) NOT NULL,
+ParentMatchupId int FOREIGN KEY references Matchups(MatchupId),
 TeamCompetingId int FOREIGN KEY references Teams(TeamId),
 Score float 
 );

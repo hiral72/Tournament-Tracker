@@ -143,14 +143,54 @@ namespace TrackerLibrary.DataAccess
                 connection.Execute("dbo.spTournamentPrizes_Insert", p, commandType: CommandType.StoredProcedure);
             }
         }
-
+   
+        private void SaveTournamentRounds(IDbConnection connection, TournamentModel model)
+        {
+            //List<List<MatchupModel>> rounds
+            //List<MatchupEntryModel> Entries
+            //loop through the rounds
+            //loop through the matchups   
+            foreach (List<MatchupModel> round in model.Rounds)
+            {
+                foreach (MatchupModel mp in round)
+                {
+                    //save matchup
+                    //loop through entires and save them
+                    var p = new DynamicParameters();
+                    p.Add("@TournamentId", model.TournamentId);
+                    p.Add("@MatchupRound", mp.MatchupRound);
+                    p.Add("@MatchupId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    connection.Execute("dbo.spMatchups_Insert", p, commandType: CommandType.StoredProcedure);
+                    mp.MatchupId = p.Get<int>("@MatchupId");
+                    foreach (MatchupEntryModel entry in mp.Entries)
+                    {
+                        p = new DynamicParameters();
+                        p.Add("@MatchupId",mp.MatchupId );
+                        
+                        if (entry.TeamCompeting == null)
+                        {
+                            p.Add("@TeamCompetitingId", null);
+                            p.Add("@ParentMatchupId", entry.ParentMatchup.MatchupId);
+                        }
+                        else{
+                            //round1
+                            p.Add("@TeamCompetitingId",entry.TeamCompeting.TeamId );
+                            p.Add("@ParentMatchupId", null);
+                        }
+                        
+                        connection.Execute("dbo.spMatchupEntries_Insert", p, commandType: CommandType.StoredProcedure);
+                    }
+                }
+            }
+        }
          public TournamentModel CreateTournament(TournamentModel model)
          {
               using(IDbConnection connection=new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
               {
                   SaveTournament(connection,model);
                   SaveEnteredTeams(connection, model);
-                  SaveTournamentPrizes(connection, model);  
+                  SaveTournamentPrizes(connection, model);
+                  SaveTournamentRounds(connection, model);
               }
               return model;
         }  
