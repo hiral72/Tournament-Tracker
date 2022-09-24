@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,107 @@ namespace TrackerLibrary
             int byes = findNumberOfByes(rounds,teamCount);
             model.Rounds.Add(CreateFirstRound(byes, randomizedTeams,rounds));
             CreateOtherRounds(model, rounds);
+    
+        }
+        public static void UpdateTournamentResults(TournamentModel model)
+        {
+            List<MatchupModel> toScore= new List<MatchupModel>();
+            foreach (List<MatchupModel> round in model.Rounds)
+            {
+                foreach (MatchupModel rm in round)
+                {
+                    if (rm.Winner==null && (rm.Entries.Any(x => x.Score != 0) || rm.Entries.Count == 1))
+                    {
+                        toScore.Add(rm);
+                    }
+                }
+            }
+            ScoreMatchups(toScore);
+            AdvanceWinners(toScore,model);
+            toScore.ForEach(x => GlobalConfig.Connections.UpdateMatchup(x));
+        }
+        private static void AdvanceWinners(List<MatchupModel> models,TournamentModel model)
+        {
+
+            foreach (MatchupModel m in models)
+            {
+                foreach (List<MatchupModel> round in model.Rounds)
+                {
+                    foreach (MatchupModel rm in round)
+                    {
+                        foreach (MatchupEntryModel me in rm.Entries)
+                        {
+                            if (me.ParentMatchup != null)
+                            {
+                                if (me.ParentMatchupId == m.MatchupId)
+                                {
+                                    me.TeamCompeting = m.Winner;
+                                    me.TeamCompetingId = m.WinnerId;
+                                    GlobalConfig.Connections.UpdateMatchup(rm);
+                                }
+                            }
+                        }
+                    }
+                } 
+            }
+        }
+
+
+        private static void ScoreMatchups(List<MatchupModel> models)
+        {
+            //greater or lesser
+           string greaterWins=ConfigurationManager.AppSettings["greaterWins"];
+
+           foreach (MatchupModel m in models)
+           {
+               //check for bye week entry
+               if (m.Entries.Count == 1)
+               {
+                   m.Winner = m.Entries[0].TeamCompeting;
+                   m.WinnerId = m.Winner.TeamId;
+                   continue;
+               }
+               //0 means false or low score wins
+               if (greaterWins == "0")
+               {
+                   if (m.Entries[0].Score < m.Entries[1].Score)
+                   {
+                       //Team one wins
+                       m.Winner = m.Entries[0].TeamCompeting;
+                       m.WinnerId = m.Winner.TeamId;
+                   }
+                   else if (m.Entries[0].Score > m.Entries[1].Score)
+                   {
+                       //Team two wins
+                       m.Winner = m.Entries[1].TeamCompeting;
+                       m.WinnerId = m.Winner.TeamId;
+                   }
+                   else
+                   {
+                       throw new Exception("We don't allow ties in this application");
+                   }
+               }
+               else
+               {
+                   //1 means true, or high score wins
+                   if (m.Entries[0].Score > m.Entries[1].Score)
+                   {
+                       //Team one wins
+                       m.Winner = m.Entries[0].TeamCompeting;
+                       m.WinnerId = m.Winner.TeamId;
+                   }
+                   else if (m.Entries[0].Score < m.Entries[1].Score)
+                   {
+                       //Team two wins
+                       m.Winner = m.Entries[1].TeamCompeting;
+                       m.WinnerId = m.Winner.TeamId;
+                   }
+                   else
+                   {
+                       throw new Exception("We don't allow ties in this application");
+                   }
+               }  
+           }  
         }
 
         private static List<MatchupModel> CreateFirstRound(int byes, List<TeamModel> teams, int rounds)
@@ -59,7 +161,7 @@ namespace TrackerLibrary
             {
                 foreach (MatchupModel match in prevRound)
                 {
-                    currMatchUp.Entries.Add(new MatchupEntryModel { ParentMatchup = match });
+                    currMatchUp.Entries.Add(new MatchupEntryModel { ParentMatchup = match,ParentMatchupId=match.MatchupId });
                     if (currMatchUp.Entries.Count > 1)
                     {
                         currMatchUp.MatchupRound = round;

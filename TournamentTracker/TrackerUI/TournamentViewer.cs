@@ -191,40 +191,7 @@ namespace TrackerUI
                 }
 
             }
-            if (teamOneScore > teamTwoScore)
-            { 
-                //Team one wins
-                m.Winner = m.Entries[0].TeamCompeting;
-                m.WinnerId = m.Winner.TeamId;
-            }
-            else if (teamOneScore < teamTwoScore)
-            {
-                //Team two wins
-                m.Winner = m.Entries[1].TeamCompeting;
-                m.WinnerId = m.Winner.TeamId;
-
-            }
-            else {
-                MessageBox.Show("I don't handle tie games");
-            }
-            foreach (List<MatchupModel> round in tournament.Rounds)
-            {
-                foreach(MatchupModel rm in round)
-                {
-                    foreach(MatchupEntryModel me in rm.Entries)
-                    {
-                        if (me.ParentMatchup!=null)
-                        {
-                            if (me.ParentMatchupId == m.MatchupId)
-                            {
-                                me.TeamCompeting = m.Winner;
-                                me.TeamCompetingId = m.WinnerId;
-                                GlobalConfig.Connections.UpdateMatchup(rm);
-                            }
-                        }
-                    }
-                }
-            }
+            TournamentLogic.UpdateTournamentResults(tournament);
             LoadMatchups();
             GlobalConfig.Connections.UpdateMatchup(m);
 

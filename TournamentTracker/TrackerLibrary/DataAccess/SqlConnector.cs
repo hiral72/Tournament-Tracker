@@ -232,6 +232,7 @@ namespace TrackerLibrary.DataAccess
                         
                         if (entry.TeamCompeting == null)
                         {
+                            entry.ParentMatchupId = entry.ParentMatchup.MatchupId;
                             p.Add("@TeamCompetitingId", null);
                             p.Add("@ParentMatchupId", entry.ParentMatchup.MatchupId);
                         }
@@ -242,6 +243,7 @@ namespace TrackerLibrary.DataAccess
                         }
                         
                         connection.Execute("dbo.spMatchupEntries_Insert", p, commandType: CommandType.StoredProcedure);
+                        entry.MatchupEntryId = p.Get<int>("@MatchupEntryId");
                     }
                 }
             }
@@ -268,8 +270,6 @@ namespace TrackerLibrary.DataAccess
                  {
                      p.Add("@WinnerId", model.WinnerId);
                      connection.Execute("dbo.spMatchups_Update", p, commandType: CommandType.StoredProcedure);
-
-                 
                  }
                 // matchupentries update
                  foreach (MatchupEntryModel me in model.Entries)

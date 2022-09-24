@@ -41,6 +41,7 @@ namespace TrackerUI
             TournamentModel tm = (TournamentModel)loadExistingTournamentDropdown.SelectedItem;
             TournamentViewer frm = new TournamentViewer(tm);
             frm.Show();
+            //this.Close();
         }
     }
 }

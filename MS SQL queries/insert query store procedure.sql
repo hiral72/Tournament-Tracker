@@ -131,17 +131,21 @@ BEGIN
 END
 GO
 
+
+drop procedure dbo.spMatchupEntries_Insert
 Use [Tournaments]
 GO
 CREATE PROCEDURE dbo.spMatchupEntries_Insert
 @MatchupId int ,
 @ParentMatchupId int,
-@TeamCompetitingId int
+@TeamCompetitingId int,
+@MatchupEntryId int=0 output
 AS
 BEGIN
 	SET NOCOUNT ON;
 	Insert into dbo.MatchupEntries(MatchupId,ParentMatchupId,TeamCompetingId)
 	values (@MatchupId,@ParentMatchupId,@TeamCompetitingId)
+	select @MatchupEntryId=SCOPE_IDENTITY();
 END
 GO
 
