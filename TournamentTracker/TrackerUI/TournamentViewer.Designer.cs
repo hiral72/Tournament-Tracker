@@ -50,12 +50,11 @@
             this.headerlabel.AutoSize = true;
             this.headerlabel.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Bold);
             this.headerlabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.headerlabel.Location = new System.Drawing.Point(171, 23);
+            this.headerlabel.Location = new System.Drawing.Point(142, 23);
             this.headerlabel.Name = "headerlabel";
-            this.headerlabel.Size = new System.Drawing.Size(239, 47);
+            this.headerlabel.Size = new System.Drawing.Size(249, 47);
             this.headerlabel.TabIndex = 0;
-            this.headerlabel.Text = "Tournament :";
-            this.headerlabel.Click += new System.EventHandler(this.label1_Click);
+            this.headerlabel.Text = "Tournament  :";
             // 
             // tournamentName
             // 
@@ -78,7 +77,6 @@
             this.Round.Size = new System.Drawing.Size(95, 37);
             this.Round.TabIndex = 2;
             this.Round.Text = "Round";
-            this.Round.Click += new System.EventHandler(this.label1_Click_1);
             // 
             // roundDropdown
             // 
@@ -101,6 +99,7 @@
             this.unplayedOnlyCheckbox.TabIndex = 4;
             this.unplayedOnlyCheckbox.Text = "Unplayed only";
             this.unplayedOnlyCheckbox.UseVisualStyleBackColor = true;
+            this.unplayedOnlyCheckbox.CheckedChanged += new System.EventHandler(this.unplayedOnlyCheckbox_CheckedChanged);
             // 
             // MatchupListBox
             // 
@@ -122,7 +121,6 @@
             this.teamOneName.Size = new System.Drawing.Size(169, 37);
             this.teamOneName.TabIndex = 6;
             this.teamOneName.Text = "<team one>";
-            this.teamOneName.Click += new System.EventHandler(this.teamOneName_Click);
             // 
             // teamOneScoreLable
             // 
@@ -134,7 +132,6 @@
             this.teamOneScoreLable.Size = new System.Drawing.Size(85, 37);
             this.teamOneScoreLable.TabIndex = 8;
             this.teamOneScoreLable.Text = "Score";
-            this.teamOneScoreLable.Click += new System.EventHandler(this.teamOneScoreLable_Click);
             // 
             // teamOneScoreValue
             // 
@@ -142,7 +139,6 @@
             this.teamOneScoreValue.Name = "teamOneScoreValue";
             this.teamOneScoreValue.Size = new System.Drawing.Size(76, 33);
             this.teamOneScoreValue.TabIndex = 9;
-            this.teamOneScoreValue.TextChanged += new System.EventHandler(this.teamOneScoreValue_TextChanged);
             // 
             // teamTwoScoreValue
             // 
@@ -151,7 +147,6 @@
             this.teamTwoScoreValue.Name = "teamTwoScoreValue";
             this.teamTwoScoreValue.Size = new System.Drawing.Size(76, 33);
             this.teamTwoScoreValue.TabIndex = 12;
-            this.teamTwoScoreValue.TextChanged += new System.EventHandler(this.teamTwoScoreValue_TextChanged);
             // 
             // teamTwoScoreLable
             // 
@@ -174,7 +169,6 @@
             this.teamTwoName.Size = new System.Drawing.Size(168, 37);
             this.teamTwoName.TabIndex = 10;
             this.teamTwoName.Text = "<team two>";
-            this.teamTwoName.Click += new System.EventHandler(this.label2_Click);
             // 
             // vsLabel
             // 
@@ -187,7 +181,6 @@
             this.vsLabel.Size = new System.Drawing.Size(77, 32);
             this.vsLabel.TabIndex = 13;
             this.vsLabel.Text = "- VS -";
-            this.vsLabel.Click += new System.EventHandler(this.VsLabel_Click);
             // 
             // scoreButton
             // 
@@ -204,7 +197,7 @@
             this.scoreButton.TabIndex = 14;
             this.scoreButton.Text = "Add Score";
             this.scoreButton.UseVisualStyleBackColor = true;
-            this.scoreButton.Click += new System.EventHandler(this.button1_Click);
+            this.scoreButton.Click += new System.EventHandler(this.scoreButton_Click);
             // 
             // TournamentViewer
             // 
@@ -232,7 +225,6 @@
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "TournamentViewer";
             this.Text = "Tournament viewer";
-            this.Load += new System.EventHandler(this.TournamentViewer_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

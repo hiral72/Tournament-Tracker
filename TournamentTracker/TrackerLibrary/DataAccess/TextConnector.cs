@@ -22,7 +22,7 @@ namespace TrackerLibrary.DataAccess
 
         // TODO - Wire up createPrize for text file
         //saves a new prize to db and returns prize ingo and unique id
-        public PrizeModel CreatePrize(PrizeModel model)
+        public void CreatePrize(PrizeModel model)
         {
             //Load text file
             //convert txt list List<prizemodel>
@@ -38,10 +38,10 @@ namespace TrackerLibrary.DataAccess
             //convert prizes to list <string>
             // save list<string> to text file
             prizes.SaveToPrizeFile(PrizesFile);
-            return model;
+
         }
 
-        public PersonModel CreatePerson(PersonModel model)
+        public void CreatePerson(PersonModel model)
         {
             //Load text file
             //convert txt list List<personmodel>
@@ -57,7 +57,7 @@ namespace TrackerLibrary.DataAccess
             //convert persons to list <string>
             // save list<string> to text file
             people.SaveToPeopleFile(PeopleFile);
-            return model;
+    
         }
 
 
@@ -69,7 +69,7 @@ namespace TrackerLibrary.DataAccess
         }
 
 
-        public TeamModel CreateTeam(TeamModel model)
+        public void CreateTeam(TeamModel model)
         {
             //Load text file
             //convert txt list List<teammodel>
@@ -85,7 +85,7 @@ namespace TrackerLibrary.DataAccess
             //convert persons to list <string>
             // save list<string> to text file
             teams.SaveToTeamsFile(TeamsFile);
-            return model;
+
         }
 
 
@@ -102,7 +102,7 @@ namespace TrackerLibrary.DataAccess
         }
 
 
-        public TournamentModel CreateTournament(TournamentModel model)
+        public void CreateTournament(TournamentModel model)
         {
             List<TournamentModel> tournaments = TournamentsFile.FullFilePath().LoadFile().ConvertToTournamentModels(TeamsFile,PrizesFile,PeopleFile);
             int currentId = 1;
@@ -114,7 +114,7 @@ namespace TrackerLibrary.DataAccess
             model.SaveRoundsToFile(MatchupFile, MatchupEntryFile);
             tournaments.Add(model);
             tournaments.SaveToTournamentsFile(TournamentsFile);
-            return model;
+
             
         }
 
@@ -122,6 +122,12 @@ namespace TrackerLibrary.DataAccess
         public List<TournamentModel> GetTournament_All()
         {
             return TournamentsFile.FullFilePath().LoadFile().ConvertToTournamentModels(TeamsFile, PrizesFile, PeopleFile);
+        }
+
+
+        public void UpdateMatchup(MatchupModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }
